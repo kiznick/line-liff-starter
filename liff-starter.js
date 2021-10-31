@@ -75,6 +75,7 @@ function displayIsInClientInfo() {
     } else {
         document.getElementById('isInClientMessage').textContent = 'You are opening the app in an external browser.';
         document.getElementById('shareTargetPicker').classList.toggle('hidden');
+        document.getElementById('btnScanCode').classList.toggle('hidden');
     }
 }
 
@@ -163,6 +164,17 @@ function registerButtonHandlers() {
         }
     });
 
+    document.getElementById('shareTargetPicker').addEventListener('click', function () {
+        if (liff.isApiAvailable('scanCode')) {
+            liff.scanCode().then(result => {
+              const stringifiedResult = JSON.stringify(result);
+              document.getElementById("scanCode").textContent = stringifiedResult;
+            });
+        } else {
+            document.getElementById('scanCode').innerHTML = "QRcode scan is unavailable.";
+        }
+    });
+
     // login call, only when external browser is used
     document.getElementById('liffLoginButton').addEventListener('click', function() {
         if (!liff.isLoggedIn()) {
@@ -212,13 +224,4 @@ function toggleElement(elementId) {
     } else {
         elem.style.display = 'block';
     }
-}
-
-
-function scanCode() {
-    liff.scanCode().then(result => {
-      const stringifiedResult = JSON.stringify(result);
-      alert(stringifiedResult);
-      document.getElementById("scanCode").textContent = stringifiedResult;
-    });
 }
