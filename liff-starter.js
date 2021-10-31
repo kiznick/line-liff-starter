@@ -213,3 +213,12 @@ function toggleElement(elementId) {
         elem.style.display = 'block';
     }
 }
+
+
+function scanCode() {
+    liff.scanCode().then(result => {
+      const stringifiedResult = JSON.stringify(result);
+      alert(stringifiedResult);
+      document.getElementById("scanCode").textContent = stringifiedResult;
+    });
+}
